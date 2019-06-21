@@ -16,16 +16,22 @@ def read_voice_cmd():
     print("Listening")
     with sr.Microphone() as source:
         audio = speech.listen(source)
+        audio = speech.listen(source=source, timeout=10,phrase_time_limit=5)
+
     try:
         voice_text = speech.recognize_google(audio)
     except sr.UnkownValueError:
         pass
     except sr.RequestError as e:
         print("Network Error")
+    except sr.WaitTheTimeOut:
+        pass
     return voice_text
 
 
 if __name__ == "__main__":
+
+    playsound("")
 
     while True:
 
