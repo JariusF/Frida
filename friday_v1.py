@@ -1,30 +1,19 @@
 import speech_recognition as sr
-import pyttsx3
 import os
+from playsound import playsound
+import webbrowser
+import random
 
+speech = sr.Recognizer
+greeting_dict = {"hello":"hello","hi":"hi"}
 
-try:
-    engine = pyttsx3.init()
-except ImportError:
-    print("Requested driver is not Found")
-except RuntimeError:
-    print("Driver failed to initialize")
+def play_sound(mp3_list):
+        mp3 = random.choice(mp3_list)
+        playsound(mp3)
 
-voices = engine.getProperty('voices')
-
-for voice in voices:
-    engine.setProperty("voice", " HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Speech\Voices\Tokens\TTS_MS_EN-US_ZIRA_11.0')")
-engine.say("Hello Sir. This is friday")
-engine.runAndWait()
-
-
-def speack_text_cmd(cmd):
-    engine.say(cmd)
-    engine.runAndWait()
-
-
-def read_voice_command():
+def read_voice_cmd():
     voice_text = ""
+    print("Listening")
     with sr.Microphone() as source:
         audio = speech.listen(source)
     try:
@@ -34,7 +23,6 @@ def read_voice_command():
     except sr.RequestError as e:
         print("Network Error")
     return voice_text
-
 
 
 if __name__ == "__main__":
@@ -47,16 +35,7 @@ if __name__ == "__main__":
         if 'hello' in voice_note:
             continue
         elif "open" in voice_note:
-            speak_text_cmd("ok sir.")
             os.system('explorer C:\\"{}"'.format(voice_note.replace("open ", "")))
             continue
         elif "by" in voice_note:
-            speak_text_cmd("By Star, Happy to help you. Have a good day!")
             exit()
-
-
-
-
-
-
-
